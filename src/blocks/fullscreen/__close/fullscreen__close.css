@@ -1,0 +1,29 @@
+.fullscreen__close {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    right: -40px;
+    top: -40px;
+    background: none;
+    background-image: url(../../../images/CloseIcon.svg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    transition: opacity .5s;
+}
+
+.fullscreen__close:hover {
+    opacity: .6;
+}
+
+@media screen and (max-width: 460px) {
+  .fullscreen__close {
+        width: 20px;
+        height: 20px;
+        right: 0px;
+        top: -36px;
+        object-fit: cover;
+  }
+}

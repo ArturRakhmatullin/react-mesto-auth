@@ -1,0 +1,26 @@
+.profile__rename {
+    background: none;
+    background-image: url(../../../images/Pencil2.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    box-sizing: border-box;
+    border: 1px solid #FFFFFF;
+    width: 24px;
+    height: 24px;
+    margin-left: 16px;
+    align-self: center;
+    cursor: pointer;
+    transition: opacity .5s;
+}
+
+.profile__rename:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 767px) {
+    .profile__rename {
+        width: 18px;
+        height: 18px;
+        margin-left: 10px;
+    }
+}
