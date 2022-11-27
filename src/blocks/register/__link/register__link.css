@@ -1,0 +1,19 @@
+.register__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    margin-top: 15px;
+}
+
+@media screen and (max-width: 360px) {
+  .register__link {
+      width: 90vw;
+  }
+}

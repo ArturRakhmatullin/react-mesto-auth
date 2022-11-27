@@ -90,8 +90,8 @@ class Api {
       return Promise.all([this.getInitialCards(), this.getProfileInfo()]);
     }
 
-    changeLikeCardStatus(cardId, isLiked) {
-      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    changeLikeCardStatus(data, isLiked) {
+      return fetch(`${this._baseUrl}/cards/${data._id}/likes`, {
         "method": `${isLiked ? 'PUT' : 'DELETE'}`,
         "headers": this._headers,
       }).then(this._checkResponse);

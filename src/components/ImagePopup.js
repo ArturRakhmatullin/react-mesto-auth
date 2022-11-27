@@ -1,5 +1,5 @@
 
-function ImagePopup({selectedCard, isOpen, onClose}) {
+function ImagePopup({card, isOpen, onClose}) {
     return (
       <div className={`popup popup_type_fullscreen ${isOpen ? 'popup_opened' : ''}`}>
         <div className="popup__container popup__container_type_fullscreen">
@@ -9,8 +9,8 @@ function ImagePopup({selectedCard, isOpen, onClose}) {
               type="button"
               onClick={onClose}
             />
-            <img className="popup__image" src={selectedCard.link} alt={selectedCard.name} />
-            <p className="popup__name">{selectedCard.name}</p>
+            <img className="popup__image" src={card.link} alt={card.name} />
+            <p className="popup__name">{card.name}</p>
         </div>
       </div>
     )
