@@ -1,21 +1,21 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
 export default function AddPlacePopup({isOpen, onClose, onAddPlace, isDataLoad}) {
-  const refOnCardName = useRef(null);
-  const refOnCardLink = useRef(null);
+  const [values, setValues] = useState({name: "", link: ""})
 
   useEffect(() => {
-    refOnCardName.current.value = '';
-    refOnCardLink.current.value = '';
-  }, [onAddPlace]);
+    setValues({name: "", about: ""});
+  }, [isOpen])
+
+  function handleChange(e) {
+    const {value, name} = e.target;
+    setValues({...values, [name]: value});
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddPlace({
-      name: refOnCardName.current.value,
-      link: refOnCardLink.current.value,
-    });
+    onAddPlace(values);
   }
 
   return(
@@ -33,12 +33,12 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace, isDataLoad})
             className="popup__info popup__info_type_place"
             name="CardName"
             type="text"
-            defaultValue=""
+            value={values.name || ""}
             placeholder="Название"
             minLength={2}
             maxLength={30}
             required=""
-            ref={refOnCardName}
+            onChange={handleChange}
         />
         <span className="popup__error popup__error_visible place-error" />
       </label>
@@ -48,10 +48,10 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace, isDataLoad})
             className="popup__info popup__info_type_email"
             name="CardLink"
             type="url"
-            defaultValue=""
+            value={values.link || ""}
             placeholder="Ссылка на картинку"
             required=""
-            ref={refOnCardLink}
+            onChange={handleChange}
         />
         <span className="popup__error popup__error_visible email-error" />
       </label>
