@@ -2,7 +2,7 @@ import logo from '../logo.svg';
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 
-function Header({email, onSignOut}) {
+function Header(props) {
   const location = useLocation();
 
   return (
@@ -14,8 +14,8 @@ function Header({email, onSignOut}) {
       />
       {location.pathname === "/" && (
         <div className="header__contener">
-          <p className="header__user-email">{email}</p>
-          <Link className="header__button" to="/sign-in" onClick={onSignOut}>
+          <p className="header__user-email">{props.email}</p>
+          <Link className="header__button" to="/sign-in" onClick={props.onSignOut}>
             Выйти
           </Link>
         </div>

@@ -1,60 +1,74 @@
 import React, {useEffect, useState} from "react";
 import PopupWithForm from "./PopupWithForm";
 
-export default function AddPlacePopup({isOpen, onClose, onAddPlace, isDataLoad}) {
-  const [values, setValues] = useState({name: "", link: ""})
+export default function AddPlacePopup(props) {
+  const [place, setValues] = useState("");
+  const [link, setLink] = useState("");
 
-  useEffect(() => {
-    setValues({name: "", about: ""});
-  }, [isOpen])
+  function handleAddPlace(e) {
+    setValues(e.target.value);
+  }
 
-  function handleChange(e) {
+  function handleAddLink(e) {
+    setLink(e.target.value);
+  }
+
+/*  function handleChange(e) {
     const {value, name} = e.target;
     setValues({...values, [name]: value});
   }
+*/
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddPlace(values);
+    props.onAddPlace(place, link);
   }
+
+  useEffect(() => {
+    setValues("");
+    setLink("");
+  }, [props.isOpen])
 
   return(
     <PopupWithForm
       name="append-card"
       title="Новое место"
-      buttonText={isDataLoad ? "Создаем.." : "Создать"}
-      isOpen={isOpen}
-      onClose={onClose}
+
+      children={<>
+        <label className="popup__label" htmlFor="place">
+          <input
+              id="place"
+              className="popup__info popup__info_type_place"
+              name="CardName"
+              type="text"
+              value={place}
+              placeholder="Название"
+              minLength={2}
+              maxLength={30}
+              required=""
+              onChange={handleAddPlace}
+          />
+          <span className="popup__error popup__error_visible place-error" />
+        </label>
+        <label className="popup__label" htmlFor="email">
+          <input
+              id="email"
+              className="popup__info popup__info_type_email"
+              name="CardLink"
+              type="url"
+              value={link}
+              placeholder="Ссылка на картинку"
+              required=""
+              onChange={handleAddLink}
+          />
+          <span className="popup__error popup__error_visible email-error" />
+        </label>
+      </>}
+
+      buttonText={props.isDataLoad ? "Создаем.." : "Создать"}
+      isOpen={props.isOpen}
+      onClose={props.onClose}
       onSubmit={handleSubmit}
-    >
-      <label className="popup__label" htmlFor="place">
-        <input
-            id="place"
-            className="popup__info popup__info_type_place"
-            name="CardName"
-            type="text"
-            value={values.name || ""}
-            placeholder="Название"
-            minLength={2}
-            maxLength={30}
-            required=""
-            onChange={handleChange}
-        />
-        <span className="popup__error popup__error_visible place-error" />
-      </label>
-      <label className="popup__label" htmlFor="email">
-        <input
-            id="email"
-            className="popup__info popup__info_type_email"
-            name="CardLink"
-            type="url"
-            value={values.link || ""}
-            placeholder="Ссылка на картинку"
-            required=""
-            onChange={handleChange}
-        />
-        <span className="popup__error popup__error_visible email-error" />
-      </label>
-    </PopupWithForm>
+    />
   );
 }

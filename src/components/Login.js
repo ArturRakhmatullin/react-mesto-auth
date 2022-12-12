@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function Login({onLogin}) {
+function Login(props) {
   const initialData = {
     email: "",
     password: "",
@@ -20,21 +20,21 @@ function Login({onLogin}) {
     if (!profileData.password || !profileData.email) {
       return;
     }
-    onLogin(profileData);
+    props.onLogin(profileData);
   };
 
   return (
     <form className="login" onSubmit={handleSubmit}>
       <h1 className="login__title">Вход</h1>
       <input
-        id="email"
+        id="e-mail"
         className="login__input"
         name="email"
         type="email"
         placeholder="Email"
         minLength="2"
         maxLength="40"
-        value={profileData.email}
+        value={profileData.email || initialData.email}
         required
         onChange={handleChange}
       />
@@ -47,7 +47,8 @@ function Login({onLogin}) {
         placeholder="Пароль"
         minLength="2"
         maxLength="40"
-        value={profileData.password}
+        value={profileData.password || initialData.password}
+        autoComplete={profileData.password || initialData.password}
         required
         onChange={handleChange}
       />
