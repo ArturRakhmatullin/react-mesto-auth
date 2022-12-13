@@ -25,7 +25,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState({});
+  const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isDataLoad, setIsDataLoad] = useState(false);
@@ -50,8 +50,8 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleCardClick(card) {
-    setSelectedCard(card);
+  function handleCardClick(props) {
+    setSelectedCard({ name: props.name, link: props.link });
     setIsImagePopupOpen(true);
   }
 
@@ -68,21 +68,42 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-    setSelectedCard({});
+    setSelectedCard({ name: "", link: "" });
     setIsInfoToolTipOpen(false);
   }
 
+  const isOpen = 
+  isEditAvatarPopupOpen ||
+  isEditProfilePopupOpen ||
+  isAddPlacePopupOpen ||
+  isInfoToolTipOpen ||
+  selectedCard.link;
+
+  useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      };
+    };
+    if (isOpen) {
+      document.addEventListener("keyup", closeByEscape);
+      return () => {
+        document.removeEventListener("keyup", closeByEscape);
+      };
+    }
+  }, [isOpen]);
+
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
     Api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((cards) => cards.map((c) => c._id === card._id ? newCard : c));
+      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     })
     .catch(err => {console.log(err)});
   }
 
-  function handleCardDelete(card) {
-    Api.removeCard(card._id).then(() => {
-      setCards((cards) => cards.filter((c) => c._id !== card._id));
+  function handleCardDelete(cardId) {
+    Api.removeCard(cardId).then(() => {
+      setCards((cards) => cards.filter((c) => c._id !== cardId));
     })
     .catch(err => {console.log(err)});
   }
@@ -117,7 +138,7 @@ function App() {
       .finally(() => {setIsDataLoad(false)});
   }
 
-  useEffect(() => {
+/*  useEffect(() => {
     if(loggedIn) {
       Promise.all([Api.getInitialData(), Api.getInitialCards()])
       .then(([cardsData, userData]) => {
@@ -126,7 +147,38 @@ function App() {
       })
       .catch(err => {console.log(err)});
     }
-  }, [loggedIn])
+  }, [loggedIn])*/
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      Auth
+        .checkToken(token)
+        .then((res) => {
+          setProfileEmail(res.data.email);
+          handleLogin();
+        })
+        .catch(err => {console.log(err)});
+    }
+  }, [loggedIn, profileEmail]);
+
+  useEffect(() => {
+    Api
+      .getInitialCards()
+      .then((cardsData) => {
+        setCards(cardsData);
+      })
+      .catch(err => {console.log(err)});
+  }, []);
+
+  useEffect(() => {
+    Api
+      .getProfileInfo()
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch(err => {console.log(err)});
+  }, []);
 
   function handleLogin({email, password}) {
     Auth.login(email, password).then((res) => {
@@ -155,7 +207,7 @@ function App() {
     localStorage.removeItem("jwt");
   };
 
-  function handleCheckToken() {
+/*  function handleCheckToken() {
     const token = localStorage.getItem("jwt");
     if (token) {
       Auth.checkToken(token)
@@ -172,7 +224,7 @@ function App() {
 
   useEffect(() => {
     handleCheckToken()
-  }, [])
+  }, [])*/
 
   return (
    <CurrentUserContext.Provider value={currentUser}>

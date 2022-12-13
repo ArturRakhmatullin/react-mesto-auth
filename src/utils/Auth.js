@@ -29,11 +29,11 @@ export const login = (email, password) => {
   }).then(_checkResponse);
 };
 
-export const checkToken = (token) => {
+export const checkToken = () => {
   return fetch(`${baseLink}/users/me`, {
     method: "GET",
     headers: {
-      'authorization': `Bearer ${token}`,
+      'authorization': `Bearer ${localStorage.getItem('jwt')}`,
     },
   }).then(_checkResponse);
 };

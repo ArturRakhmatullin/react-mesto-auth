@@ -50,36 +50,36 @@ class Api {
       .then(this._checkResponse)
     }
 
-    addCard(data) {
+    addCard(place, link) {
       return fetch(`${this._baseUrl}/cards`, {
           "method": "POST",
           "headers": this._headers,
           "body": JSON.stringify({
-              name: data.name,
-              link: data.link,
+              name: place,
+              link: link,
           })
       })
       .then(this._checkResponse);
     }
 
-    removeCard(data) {
-      return fetch(`${this._baseUrl}/cards/${data._id}`, {
+    removeCard(cardId) {
+      return fetch(`${this._baseUrl}/cards/${cardId}`, {
           "method": "DELETE",
           "headers": this._headers,
       })
       .then(this._checkResponse)
     }
 
-    addLike(data) {
-      return fetch(`${this._baseUrl}/cards/${data._id}/likes`, {
+    addLike(cardId) {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
           "method": "PUT",
           "headers": this._headers
       })
       .then(this._checkResponse)
     }
 
-    removeLike(data) {
-      return fetch(`${this._baseUrl}/cards/${data._id}/likes`, {
+    removeLike(cardId) {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
           "method": "DELETE",
           "headers": this._headers
       })
@@ -90,8 +90,8 @@ class Api {
       return Promise.all([this.getInitialCards(), this.getProfileInfo()]);
     }
 
-    changeLikeCardStatus(data, isLiked) {
-      return fetch(`${this._baseUrl}/cards/${data._id}/likes`, {
+    changeLikeCardStatus(cardId, isLiked) {
+      return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         "method": `${isLiked ? 'PUT' : 'DELETE'}`,
         "headers": this._headers,
       }).then(this._checkResponse);
