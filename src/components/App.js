@@ -138,17 +138,6 @@ function App() {
       .finally(() => {setIsDataLoad(false)});
   }
 
-/*  useEffect(() => {
-    if(loggedIn) {
-      Promise.all([Api.getInitialData(), Api.getInitialCards()])
-      .then(([cardsData, userData]) => {
-        setCards(cardsData);
-        setCurrentUser(userData);
-      })
-      .catch(err => {console.log(err)});
-    }
-  }, [loggedIn])*/
-
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (token) {
@@ -189,7 +178,10 @@ function App() {
           navigate("/");
         }
       })
-      .catch(err => {console.log(err)});
+      .catch(err => {
+        console.log(err);
+        handleInfoToolTip(false);
+      });
   }
 
   function handleRegister({email, password}) {
@@ -198,7 +190,10 @@ function App() {
           handleInfoToolTip(true);
         }
       })
-      .catch(err => {console.log(err)});
+      .catch(err => {
+        console.log(err);
+        handleInfoToolTip(false);
+      });
   }
 
   const handleSignOut = () => {
@@ -206,25 +201,6 @@ function App() {
     setLoggedIn(false);
     localStorage.removeItem("jwt");
   };
-
-/*  function handleCheckToken() {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      Auth.checkToken(token)
-      .then((data) => {
-        if (data) {
-          setLoggedIn(true);
-          setProfileEmail(data.data.email);
-          navigate("/");
-        }
-      })
-      .catch(err => {console.log(err)});
-    } 
-  }
-
-  useEffect(() => {
-    handleCheckToken()
-  }, [])*/
 
   return (
    <CurrentUserContext.Provider value={currentUser}>

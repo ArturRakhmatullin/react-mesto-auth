@@ -17,10 +17,10 @@ function InfoToolTip({onClose, status: { isOpen, checkin}}) {
 
   return (
     <div className={`popup ${isOpen && 'popup_opened'}`}>
-      <form className="popup__container">
+      <form className="popup__container popup__container_type_authentication">
         <div className={`popup__status ${checkin ? 'popup__status_happy' : 'popup__status_unhappy'}`}></div>
         <h2 className="popup__title-status">{checkin ? 'Вы успешно зарегистрировались!' : 'Что-то пошло не так! Попробуйте еще раз.'}</h2>
-        <button type="button" onClick={onClose} className="popup__close"></button>
+        <button type="button" onClick={onClose} className="popup__close popup__close_type_authentication"></button>
         <div onClick={onClose} className="popup__overlay"></div>
       </form>
     </div>
