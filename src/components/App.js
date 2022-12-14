@@ -29,7 +29,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isDataLoad, setIsDataLoad] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState([]);
   const [profileEmail, setProfileEmail] = useState("");
   const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState({
     isOpen: false,
@@ -145,7 +145,6 @@ function App() {
         .checkToken(token)
         .then((res) => {
           setProfileEmail(res.data.email);
-          handleLogin();
         })
         .catch(err => {console.log(err)});
     }

@@ -28,7 +28,7 @@ const Register = (props) => {
         placeholder="E-mail"
         minLength="2"
         maxLength="40"
-        value={profileData.email}
+        value={profileData.email || ""}
         required
         onChange={handleChange}
       />
@@ -41,7 +41,7 @@ const Register = (props) => {
         placeholder="Пароль"
         minLength="2"
         maxLength="40"
-        value={profileData.password}
+        value={profileData.password || ""}
         required
         onChange={handleChange}
       />
